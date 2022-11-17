@@ -128,4 +128,4 @@ $ use [스키마 이름]
 $ show tables;
 ```
 
-![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/9df7f35a-c431-47d1-8360-cf7d8190c18b/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221116%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221116T113352Z&X-Amz-Expires=86400&X-Amz-Signature=2e13d8a7fb634f2c9f1794571fd6256f2e3996d59e390cb009872e415e3775aa&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/9df7f35a-c431-47d1-8360-cf7d8190c18b/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20221117%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20221117T121830Z&X-Amz-Expires=86400&X-Amz-Signature=283f68e15d899fe3a3a0e12b780eae55ff8f854fed4858136efbb4b714989cc7&X-Amz-SignedHeaders=host&response-content-disposition=filename%3D%22Untitled.png%22&x-id=GetObject)
