@@ -495,21 +495,6 @@ jwt:
     [https://itvillage.tistory.com/47](https://itvillage.tistory.com/47)
     
 
-<aside>
-💡 이 부분 문제 있음. 우선 아래 방식으로 처리
-
-</aside>
-
-```yaml
-...
-...
-
-jwt:
-  key-secret: CHANBIN123412314123412314123412341234             # 민감한 정보는 시스템 환경 변수에서 로드한다.
-  access-token-expiration-minutes: 30
-  refresh-token-expiration-minutes: 420
-```
-
 ## 로그인 인증 요청을 처리하는 Custom Security Filter 구현
 
 ```java
