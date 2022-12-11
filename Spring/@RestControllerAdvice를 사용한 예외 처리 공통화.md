@@ -62,13 +62,10 @@ public class GlobalExceptionAdvice {
 - `ErrorResponse` 클래스를 이용해서 에러 정보만 담아서 클라이언트에게 응답으로 전송
 
 ```java
-package hobin.toyBoard.response;
+package com.codestates.response;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import javax.validation.ConstraintViolation;
 import java.util.List;
@@ -78,58 +75,95 @@ import java.util.stream.Collectors;
 @Getter
 public class ErrorResponse {
 
+    // MethodArgumentNotValidException으로부터 발생하는 에러 정보를 담는 멤버 변수
     private List<FieldError> fieldErrors;
-    private List<FieldError.ConstraintViolationError> violationErrors;
 
-    public ErrorResponse(List<FieldError> fieldErrors, List<FieldError.ConstraintViolationError> violationErrors) {
+    // ConstraintViolationExceiption으로부터 발생하는 에러 정보를 담는 멤버 변수
+    private List<ConstraintViolationError> violationErrors;
+
+    /**
+     * ErrorResponse 클래스의 생성자
+     * private 접근 제한자를 지정함으로써 new연산자로 ErrorResponse 객체를 생성할 수 없다.
+     * 대신 of() 메서드를 이용해 ErrorResponse의 객체를 생성할 수 있다.
+     * 덕분에 ErrorResponse의 객체를 생성함과 동시에 ErrorResponse의 역할을 명확하게 해준다.
+     */
+    private ErrorResponse(List<FieldError> fieldErrors, List<ConstraintViolationError> violationErrors) {
         this.fieldErrors = fieldErrors;
         this.violationErrors = violationErrors;
     }
 
+    /**
+     * MethodArgumentNotValidException에 대한 ErrorResponse 객체를 생성
+     * 해당 에러 정보를 얻기 위해 필요한 것이 BindingResult 객체이기 때문에
+     * of() 메서드를 호출하는 쪽에서 BindingResult 객체를 파라미터로 넘겨주면 된다.
+     *
+     * 파라미터로 전달 받은 BindingResult 객체를 가지고 에러 정보를 추출하고 가공하는 일은
+     * static 멤버 클래스인 FieldError 클래스에게 위임하고 있다.
+     */
     public static ErrorResponse of(BindingResult bindingResult) {
         return new ErrorResponse(FieldError.of(bindingResult), null);
     }
 
+    /**
+     * ConstraintViolationException에 대한 ErrorResponse 객체를 생성
+     * 해당 에러 정보를 얻기 위해 필요한 것이 Set<ConstraintViolation<?>> 객체이기 때문에
+     * of() 메서드를 호출하는 쪽에서 Set<ConstraintViolation<?>> 객체를 파라미터로 넘겨주면 된다.
+     *
+     * 파라미터로 전달 받은 Set<ConstraintViolation<?>> 객체를 가지고 에러 정보를 추출하고 가공하는 일은
+     * static 멤버 클래스인 ConstraintViolationError 클래스에게 위임하고 있다.
+     */
     public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
-        return new ErrorResponse(null, FieldError.ConstraintViolationError.of(violations));
+        return new ErrorResponse(null, ConstraintViolationError.of(violations));
     }
 
+    // 필드(DTO 클래스의 멤버 변수)의 유효성 검증에서 발생하는 에러 정보를 생성한다.
     @Getter
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class FieldError {
         private String field;
-        private Object rejectValue;
+        private Object rejecteValue;
         private String reason;
 
+        public FieldError(String field, Object rejecteValue, String reason) {
+            this.field = field;
+            this.rejecteValue = rejecteValue;
+            this.reason = reason;
+        }
+
         public static List<FieldError> of(BindingResult bindingResult) {
-            final List<org.springframework.validation.FieldError> fieldErrors = bindingResult.getFieldErrors();
+            final List<org.springframework.validation.FieldError> fieldErrors =
+                    bindingResult.getFieldErrors();
 
             return fieldErrors.stream()
                     .map(error -> new FieldError(
                             error.getField(),
-                            error.getRejectedValue() == null ?
-                            "" : error.getRejectedValue().toString(),
+                            error.getRejectedValue(),
                             error.getDefaultMessage()))
                     .collect(Collectors.toList());
         }
-        
-        @Getter
-        @AllArgsConstructor(access = AccessLevel.PRIVATE)
-        public static class ConstraintViolationError {
-            private String propertyPath;
-            private Object rejectedValue;
-            private String reason;
+    }
 
-            public static List<ConstraintViolationError> of(
-                    Set<ConstraintViolation<?>> constraintViolations) {
-                return constraintViolations.stream()
-                        .map(constraintViolation -> new ConstraintViolationError(
-                                constraintViolation.getPropertyPath().toString(),
-                                constraintViolation.getInvalidValue().toString(),
-                                constraintViolation.getMessage()
-                        )).collect(Collectors.toList());
-            }
-            
+    // URI 변수 값에 대한 에러 정보를 생성한다.
+    @Getter
+    public static class ConstraintViolationError {
+        private String propertyPath;
+        private Object rejectedValue;
+        private String reason;
+
+        public ConstraintViolationError(String propertyPath, Object rejectedValue, String reason) {
+            this.propertyPath = propertyPath;
+            this.rejectedValue = rejectedValue;
+            this.reason = reason;
+        }
+
+        public static List<ConstraintViolationError> of(
+                Set<ConstraintViolation<?>> constraintViolations
+        ) {
+            return constraintViolations.stream()
+                    .map(constraintViolation -> new ConstraintViolationError(
+                            constraintViolation.getPropertyPath().toString(),
+                            constraintViolation.getInvalidValue().toString(),
+                            constraintViolation.getMessage()))
+                    .collect(Collectors.toList());
         }
     }
 }
