@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Graph 구현 및 순회" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Queue 구현" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Stack 구현" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Tree 구현" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/객체지향원리 적용/01_예제" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/객체지향원리 적용/02_예제_관심사 분리" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/객체지향원리 적용/03_예제_AppConfig 리팩토링" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/객체지향원리 적용/04_Spring으로 전환" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
